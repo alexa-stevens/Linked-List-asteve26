@@ -22,16 +22,42 @@ public:
         top = nullptr;
     }
 
+    //Destructor
+    ~Stack() {
+        //Remove any remaining Nodes from heap memory
+        while (top != nullptr) {
+            pop();
+        }
+        cout << "No memory leaks!" <<endl;
+    }
+
     // add a Node to the Stack
     void push(Object item) {
-        //Create a new node that stores item
-        //The new node should point to the old top
-        Node<Object> newNode(item, top);
+        // Create a new node that stores item
+        // The new node should point to the old top
+        // Allocate the new node in head memory
+        Node<Object>* newNodePtr = new Node<Object>(item, top);
+
         //The new node should become the new top
-        top = &newNode;
+        top = newNodePtr;
     }
 
     //remove a Node from the Stack
+    Object pop() {
+        // Handle the case of an empty stack
+        if (top==nullptr) {
+            return Object();
+        }
+        Object item = top->getItem();
+        Node<Object>* topCopy = top;
+        // Update top
+        top = top->getNext();
+        // Use the delete keyword to deallocate heap memory
+        delete topCopy;
+        topCopy = nullptr;
+        // Return the Object that is being popped
+        return item;
+    }
 
     // print the contents of the Stack
     void print() const {

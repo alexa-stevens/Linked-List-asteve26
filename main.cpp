@@ -16,6 +16,7 @@ int main() {
     stack1.push(14);
     stack1.print();
 
+
     return 0;
 
 }
